@@ -61,6 +61,8 @@ public class Transaction {
         return transaction;
     }
 
+    public String signedData;
+    public String signature;
 	public String developerPayload;
     public String notificationId;
     public String orderId;
@@ -82,8 +84,20 @@ public class Transaction {
 		this.developerPayload = developerPayload;
 	}
     
+    public Transaction(String orderId, String productId, String packageName, PurchaseState purchaseState, String notificationId, long purchaseTime, String developerPayload, String signature, String signedData) {
+    	this.orderId = orderId;
+		this.productId = productId;
+		this.packageName = packageName;
+		this.purchaseState = purchaseState;
+		this.notificationId = notificationId;
+		this.purchaseTime = purchaseTime;
+		this.developerPayload = developerPayload;
+		this.signature = signature;
+		this.signedData = signedData;
+    }
+    
 	public Transaction clone() {
-		return new Transaction(orderId, productId, packageName, purchaseState, notificationId, purchaseTime, developerPayload);
+		return new Transaction(orderId, productId, packageName, purchaseState, notificationId, purchaseTime, developerPayload, signature, signedData);
 	}
 
 	@Override
@@ -124,6 +138,19 @@ public class Transaction {
 			return false;
 		if (purchaseTime != other.purchaseTime)
 			return false;
+		
+		if(signature == null){
+			if(other.signature != null)
+				return false;
+		} else if (!signature.equals(other.signature))
+			return false;
+		
+		if(signedData == null){
+			if(other.signedData != null)
+				return false;
+		} else if (!signedData.equals(other.signedData))
+			return false;
+		
 		return true;
 	}
 	
