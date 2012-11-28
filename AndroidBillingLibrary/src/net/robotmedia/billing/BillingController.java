@@ -94,7 +94,7 @@ public class BillingController {
 	 * @param notificationId
 	 *            id of the notification.
 	 */
-	private static final void addManualConfirmation(String itemId, String notificationId) {
+	public static final void addManualConfirmation(String itemId, String notificationId) {
 		Set<String> notifications = manualConfirmations.get(itemId);
 		if (notifications == null) {
 			notifications = new HashSet<String>();
@@ -426,7 +426,12 @@ public class BillingController {
 			} else {
 				// TODO: Discriminate between purchases, cancellations and
 				// refunds.
-				addManualConfirmation(p.productId, p.notificationId);
+				//addManualConfirmation(p.productId, p.notificationId);
+				 if (p.notificationId != null) {
+                    // This is probably a cancellation / refund - go ahead
+                    // and confirm it anyway
+                    confirmations.add(p.notificationId);
+                }
 			}
 			
 			// Add signedData and signature as receipt to transaction
